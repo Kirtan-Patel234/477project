@@ -8,9 +8,9 @@ The goal of this project is to analyze the relationship between air quality and 
 
 ## Research Question(s)
 
-1. How do weekly or annual air quality levels (PM2.5, ozone) correlate with respiratory illness rates in Chicago?
+1. How do weekly and/or annual air quality levels (PM2.5, ozone) correlate with respiratory illness rates in Chicago?
 2. Are there observable temporal trends or lag effects between air pollution exposure and hospital visits?
-3. How does this relationship vary across different seasons or age groups?
+3. How does this relationship vary; across different seasons, age groups, demographics?
 
 ---
 
