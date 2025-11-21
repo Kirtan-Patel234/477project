@@ -123,15 +123,38 @@ These directions will guide our work for **Milestone 4**, focusing on deeper exp
 
 Each team member must write their **own summary** using this format and commit **their own addition** to the repo.
 
-### Team Member: **Kirtan**
+### Team Member: **Kirtan Patel**
+
+**Primary Contributions (Milestone 3):**
+
+- Led data acquisition for EPA AQS (Chicago) and respiratory hospital datasets.
+- Performed data cleaning and developed temporal alignment strategy.
+- Identified dataset mismatch in weekly aggregation and pivoted to monthly aggregation.
+- Created merged analysis-ready dataset and ran initial correlation and regression tests.
+- Updated StatusReport.md with methodology changes and technical justification.
+
+**Files / Scripts Worked On:**
+
+- `getData.ipynb`
+- `dataIntegration.ipynb`
+- `data/air.csv`
+- `data/hosp_data.csv`
+
+**Next Planned Tasks:**
+
+- Test 3–6 month lag effects.
+- Analyze seasonal and demographic variation.
+- Begin exploring non-linear models and visualization.
+
+---
+
+### Team Member: **Abhinav**
 
 - Contributions to this milestone:
 - Files/scripts worked on:
 - Next planned tasks:
 
 (Add a similar section for all team members.)
-
----
 
 ### Team Member: **Abhinav**
 
