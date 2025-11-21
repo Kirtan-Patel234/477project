@@ -46,11 +46,11 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="milestone-3-interim-status-report" class="level1">
-<h1>Milestone 3: Interim Status Report</h1>
+<section id="interim-status-report" class="level1">
+<h1>Interim Status Report</h1>
 <section id="project-overview" class="level2">
 <h2 class="anchored" data-anchor-id="project-overview">1. Project Overview</h2>
-<p>Provide a brief restatement of your project goals and objectives.</p>
+<p>This project analyzes the relationship between air quality (PM2.5, ozone) and emergency department visits for respiratory illnesses in Chicago. Using EPA AQS and Chicago health data, we aim to explore weekly patterns, possible lag effects, and demographic variations to assess potential public health impacts.</p>
 <hr>
 </section>
 <section id="task-updates-from-project-plan" class="level2">
@@ -59,7 +59,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="data-acquisition-initial-download-kirtan">2.1 Data Acquisition &amp; Initial Download (Kirtan)</h3>
 <ul>
 <li><strong>Status:</strong> Completed</li>
-<li><strong>Artifacts:</strong> <code>data/epa_raw.json</code>, <code>data/chicago_respiratory_raw.json</code>, <code>scripts/aqs_api_fetch.py</code>, <code>scripts/chicago_api_fetch.py</code></li>
+<li><strong>Artifacts:</strong> <code>data/air_data.csv</code>, <code>data/hosp_data.csv</code>, <code>getData.ipynb</code></li>
 <li><strong>Details:</strong> Successfully fetched EPA AQS data and Chicago respiratory illness data via APIs. Data stored in repository with reproducible scripts.</li>
 </ul>
 </section>
@@ -67,8 +67,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="data-cleaning-integration-kirtan">2.2 Data Cleaning &amp; Integration (Kirtan)</h3>
 <ul>
 <li><strong>Status:</strong> In Progress</li>
-<li><strong>Artifacts:</strong> <code>notebooks/data_cleaning.ipynb</code>, <code>scripts/integrate_data.py</code></li>
-<li><strong>Details:</strong> Began cleaning PM2.5 and ozone datasets; working on weekly aggregation to match hospital data. Next step is normalization and date alignment.</li>
+<li><strong>Details:</strong> Began cleaning air quality dataset; working on weekly aggregation to match hospital data. Next step is normalization and date alignment.</li>
 </ul>
 </section>
 <section id="database-setup-storage-abhinav" class="level3">
@@ -134,29 +133,110 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="changes-to-project-plan" class="level2">
 <h2 class="anchored" data-anchor-id="changes-to-project-plan">4. Changes to Project Plan</h2>
-<p>Describe any changes to the plan (scope, timeline, method, datasets, etc.) and include modifications made based on <strong>Milestone 2 feedback</strong>.</p>
+<p>Based on our analysis and feedback from Milestone 2, we made several key adjustments to the project methodology:</p>
+<section id="methodological-adjustments" class="level3">
+<h3 class="anchored" data-anchor-id="methodological-adjustments"><strong>Methodological Adjustments</strong></h3>
 <ul>
-<li>Change description 1</li>
-<li>Change description 2</li>
-<li>Feedback response summary</li>
+<li>The initial EPA endpoint (<code>annualData/byCounty</code>) returned only <strong>23 usable weeks</strong>, which prevented meaningful integration with hospital data. We switched to the <code>dailyData/byCounty</code> endpoint for <strong>Chicago only</strong>, retrieving <strong>~30,000 daily records</strong>.</li>
+<li>EPA monitors only report when pollutant levels change. As a result, weekly aggregation produced sparse coverage and did not align with hospital data.</li>
+<li>To resolve this, we shifted from <strong>weekly aggregation to monthly aggregation</strong>, which better reflects standard practice in environmental research.</li>
+<li>After this pivot, the merge between datasets succeeded, resulting in <strong>555 usable records</strong>—sufficient for meaningful correlation and regression analyses.</li>
+</ul>
+</section>
+<section id="impact-on-project-direction" class="level3">
+<h3 class="anchored" data-anchor-id="impact-on-project-direction"><strong>Impact on Project Direction</strong></h3>
+<ul>
+<li>Monthly aggregation improved statistical power and temporal alignment.</li>
+<li>Enabled exploratory analysis, lag-effect testing, and regression modeling.</li>
+<li>Strengthened project validity and ensured alignment with research goals.</li>
+</ul>
+</section>
+<section id="feedback-response-summary" class="level3">
+<h3 class="anchored" data-anchor-id="feedback-response-summary"><strong>Feedback Response Summary</strong></h3>
+<ul>
+<li>Addressed data alignment issues mentioned during Milestone 2.</li>
+<li>Improved reproducibility through updated scripts and clearer aggregation logic.</li>
+<li>Adjusted workflow to prioritize robust temporal analysis.</li>
 </ul>
 <hr>
 </section>
+</section>
 <section id="challenges-solutions" class="level2">
 <h2 class="anchored" data-anchor-id="challenges-solutions">5. Challenges &amp; Solutions</h2>
-<p>Briefly describe any technical/data issues, bottlenecks, or obstacles and how your team addressed them.</p>
+<section id="challenge-sparse-weekly-epa-data" class="level3">
+<h3 class="anchored" data-anchor-id="challenge-sparse-weekly-epa-data"><strong>Challenge: Sparse Weekly EPA Data</strong></h3>
+<ul>
+<li>EPA monitoring data showed limited week-level variation because pollutant values are only recorded when they change.</li>
+<li>Weekly aggregation resulted in too few records for analysis, and merge attempts returned empty datasets.</li>
+</ul>
+</section>
+<section id="solution-monthly-aggregation" class="level3">
+<h3 class="anchored" data-anchor-id="solution-monthly-aggregation"><strong>Solution: Monthly Aggregation</strong></h3>
+<ul>
+<li>We shifted to <strong>monthly aggregation</strong>, which produced <strong>555 merged data points</strong>.</li>
+<li>This level of granularity is consistent with environmental research standards and enabled further statistical testing.</li>
+</ul>
+</section>
+<section id="regression-findings" class="level3">
+<h3 class="anchored" data-anchor-id="regression-findings"><strong>Regression Findings</strong></h3>
+<p>A multiple linear regression using monthly air quality data and 1–2 month lagged variables resulted in:</p>
+<ul>
+<li><strong>R² = 0.000</strong> → very weak explanatory power.</li>
+<li>All predictor p-values <strong>&gt; 0.80</strong> → no significant relationship under the current model.</li>
+</ul>
+<p><strong>Interpretation:</strong> This does <strong>not invalidate the research question</strong>. Instead, it suggests:</p>
+<ul>
+<li>Respiratory effects may occur with <strong>longer lag periods</strong> (e.g., 3–6 months).</li>
+<li><strong>Seasonality and demographic effects</strong> may be influential.</li>
+<li><strong>Non-linear models</strong> (RandomForest, GAM) may better capture relationships.</li>
+</ul>
 <hr>
+</section>
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">6. Next Steps</h2>
-<p>List upcoming tasks and priorities leading into the next milestone.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Focus Area</th>
+<th>Planned Method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Seasonality</td>
+<td>Group by month and analyze average percent of respiratory cases</td>
+</tr>
+<tr class="even">
+<td>Age group effects</td>
+<td>Compare trends across <code>demographic_group</code></td>
+</tr>
+<tr class="odd">
+<td>Extreme pollution</td>
+<td>Compare top 10% pollution months vs.&nbsp;remaining months</td>
+</tr>
+<tr class="even">
+<td>Non-linear effects</td>
+<td>Test RandomForestRegressor or GAM</td>
+</tr>
+<tr class="odd">
+<td>Longer lag periods</td>
+<td>Implement <code>shift(3–6)</code> to explore delayed health effects</td>
+</tr>
+</tbody>
+</table>
+<p>These directions will guide our work for <strong>Milestone 4</strong>, focusing on deeper exploratory analysis and model experimentation.</p>
 <hr>
 </section>
 <section id="team-member-contributions" class="level2">
 <h2 class="anchored" data-anchor-id="team-member-contributions">7. Team Member Contributions</h2>
 <p>Each team member must write their <strong>own summary</strong> using this format and commit <strong>their own addition</strong> to the repo.</p>
-<section id="team-member-name" class="level3">
-<h3 class="anchored" data-anchor-id="team-member-name">Team Member: <strong>Name</strong></h3>
+<section id="team-member-kirtan" class="level3">
+<h3 class="anchored" data-anchor-id="team-member-kirtan">Team Member: <strong>Kirtan</strong></h3>
 <ul>
 <li>Contributions to this milestone:</li>
 <li>Files/scripts worked on:</li>
@@ -165,18 +245,10 @@ ul.task-list li input[type="checkbox"] {
 <p>(Add a similar section for all team members.)</p>
 <hr>
 </section>
-</section>
-<section id="github-submission-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="github-submission-checklist">8. GitHub &amp; Submission Checklist</h2>
-<ul class="task-list">
-<li><label><input type="checkbox">Commit all in-progress work</label></li>
-<li><label><input type="checkbox">Add <code>StatusReport.md</code> to repo</label></li>
-<li><label><input type="checkbox">Push to GitHub</label></li>
-<li><label><input type="checkbox">Create <code>status-report</code> <strong>tag and release</strong></label></li>
-<li><label><input type="checkbox">Submit release URL on Canvas</label></li>
-</ul>
-<hr>
+<section id="team-member-abhinav" class="level3">
+<h3 class="anchored" data-anchor-id="team-member-abhinav">Team Member: <strong>Abhinav</strong></h3>
 <p><em>End of StatusReport.md template – update all placeholders with your actual project details.</em></p>
+</section>
 </section>
 </section>
 

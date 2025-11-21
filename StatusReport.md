@@ -17,6 +17,7 @@ This project analyzes the relationship between air quality (PM2.5, ozone) and em
 ### 2.2 Data Cleaning & Integration (Kirtan)
 
 - **Status:** In Progress
+- **Artifacts:** `data/air_data.csv`, `data/hosp_data.csv`, `dataIntegration.ipynb`
 - **Details:** Began cleaning air quality dataset; working on weekly aggregation to match hospital data. Next step is normalization and date alignment.
 
 ### 2.3 Database Setup & Storage (Abhinav)
@@ -39,13 +40,15 @@ This project analyzes the relationship between air quality (PM2.5, ozone) and em
 
 ## 3. Updated Timeline
 
-Include a table or Gantt-style summary:
-
-| Task   | Original Deadline | Current Status | Expected Completion |
-| ------ | ----------------- | -------------- | ------------------- |
-| Task A | 11/10             | In progress    | 11/25               |
-| Task B | 11/12             | Completed      | ✓                   |
-| Task C | 11/16             | Not started    | 11/28               |
+| Task                                 | Responsible | Original Timeline | Current Status  | Expected Completion |
+| ------------------------------------ | ----------- | ----------------- | --------------- | ------------------- |
+| Data acquisition & initial download  | Kirtan      | Week 1–2          | **Completed**   | ✓                   |
+| Data cleaning & integration          | Kirtan      | Week 2–3          | **Completed**   | ✓                   |
+| Database setup & storage             | Abhinav     | Week 2–3          | Not Started     | Week 4              |
+| Exploratory analysis & visualization | Both        | Week 3–4          | **In Progress** | Nov 25              |
+| Workflow automation                  | Abhinav     | Week 4            | Not Started     | Nov 25              |
+| Documentation & metadata             | Both        | Week 4–5          | **In Progress** | Dec 5               |
+| Final report & GitHub release        | Both        | Week 5 (Dec 10)   | On Track        | Dec 10              |
 
 ---
 
