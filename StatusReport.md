@@ -22,11 +22,13 @@ This project analyzes the relationship between air quality (PM2.5, ozone) and em
 
 ### 2.3 Database Setup & Storage (Abhinav)
 
-- **Status:** Pending
+- **Status:** Not Started
 
 ### 2.4 Exploratory Analysis & Visualization (Both)
 
-- **Status:** Not started
+- **Status:** In Progress
+- **Artifacts:** `data/air_data.csv`, `data/hosp_data.csv`, `dataIntegration.ipynb`
+- **Details:** We fit a regression model using the merged dataset between air quality and hosptial data. Our findings are available below in the report.
 
 ### 2.5 Workflow Automation (Abhinav)
 
