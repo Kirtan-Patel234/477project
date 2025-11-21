@@ -22,7 +22,9 @@ This project analyzes the relationship between air quality (PM2.5, ozone) and em
 
 ### 2.3 Database Setup & Storage (Abhinav)
 
-- **Status:** Not Started
+- **Status:** Completed
+- **Artifacts:** `data/analysis.db`, `databaseSetup.ipynb`
+- **Details:** Created SQLite database with schema for air quality, hospital visits, and monthly aggregated analysis. Database includes metadata tracking for reproducibility and supports efficient querying for analysis.
 
 ### 2.4 Exploratory Analysis & Visualization (Both)
 
@@ -32,7 +34,9 @@ This project analyzes the relationship between air quality (PM2.5, ozone) and em
 
 ### 2.5 Workflow Automation (Abhinav)
 
-- **Status:** Not started
+- **Status:** Completed
+- **Artifacts:** `workflowAutomation.ipynb`, `visualizations.ipynb`
+- **Details:** Implemented automated data validation pipeline, reproducibility checks, and comprehensive visualization suite. Created scripts for data quality reporting and correlation analysis.
 
 ### 2.6 Documentation & Metadata (Both)
 
@@ -46,9 +50,9 @@ This project analyzes the relationship between air quality (PM2.5, ozone) and em
 | ------------------------------------ | ----------- | ----------------- | --------------- | ------------------- |
 | Data acquisition & initial download  | Kirtan      | Week 1–2          | **Completed**   | ✓                   |
 | Data cleaning & integration          | Kirtan      | Week 2–3          | **Completed**   | ✓                   |
-| Database setup & storage             | Abhinav     | Week 2–3          | Not Started     | Week 4              |
+| Database setup & storage             | Abhinav     | Week 2–3          | **Completed**   | ✓                   |
 | Exploratory analysis & visualization | Both        | Week 3–4          | **In Progress** | Nov 25              |
-| Workflow automation                  | Abhinav     | Week 4            | Not Started     | Nov 25              |
+| Workflow automation                  | Abhinav     | Week 4            | **Completed**   | ✓                   |
 | Documentation & metadata             | Both        | Week 4–5          | **In Progress** | Dec 5               |
 | Final report & GitHub release        | Both        | Week 5 (Dec 10)   | On Track        | Dec 10              |
 
@@ -150,14 +154,31 @@ Each team member must write their **own summary** using this format and commit *
 
 ---
 
-### Team Member: **Abhinav**
+### Team Member: **Abhinav Arvind**
 
-- Contributions to this milestone:
-- Files/scripts worked on:
-- Next planned tasks:
+**Primary Contributions (Milestone 3):**
 
-(Add a similar section for all team members.)
+- Developed SQLite database infrastructure for storing and querying air quality and hospital visit data.
+- Created automated workflow validation pipeline to ensure data quality and reproducibility.
+- Implemented comprehensive visualization suite for exploratory data analysis including time series, correlations, seasonal patterns, and distribution plots.
+- Built data quality reporting system with automated validation checks.
+- Contributed to project documentation and status tracking.
 
-### Team Member: **Abhinav**
+**Files / Scripts Worked On:**
 
-_End of StatusReport.md template – update all placeholders with your actual project details._
+- `databaseSetup.ipynb` - Database schema creation and data population
+- `workflowAutomation.ipynb` - Pipeline automation and validation
+- `visualizations.ipynb` - Exploratory data analysis visualizations
+- `StatusReport.md` - Documentation and progress tracking
+
+**Next Planned Tasks:**
+
+- Run and validate all visualization outputs from the database.
+- Implement advanced lag analysis (3-6 month periods).
+- Explore non-linear modeling approaches (RandomForest/GAM).
+- Create final analysis report with key findings and visualizations.
+- Finalize documentation and prepare for GitHub release.
+
+---
+
+_End of StatusReport.md – Milestone 3_
