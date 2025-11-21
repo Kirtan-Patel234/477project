@@ -56,15 +56,15 @@ The goal of this project is to analyze the relationship between air quality and 
 
 ## Timeline
 
-| Task                                 | Responsible      | Timeline        |
-| ------------------------------------ | ---------------- | --------------- |
-| Data acquisition & initial download  | Kirtan           | Week 1–2        |
-| Data cleaning & integration          | Kirtan + Abhinav | Week 2–3        |
-| Database setup & storage             | Partner          | Week 2–3        |
-| Exploratory analysis & visualization | Kirtan + Abhinav | Week 3–4        |
-| Workflow automation                  | Partner          | Week 4          |
-| Documentation & metadata             | Both             | Week 4–5        |
-| Final report & GitHub release        | Both             | Week 5 (Dec 10) |
+| Task                                 | Responsible | Timeline        |
+| ------------------------------------ | ----------- | --------------- |
+| Data acquisition & initial download  | Kirtan      | Week 1–2        |
+| Data cleaning & integration          | Kirtan      | Week 2–3        |
+| Database setup & storage             | Abhinav     | Week 2–3        |
+| Exploratory analysis & visualization | Both        | Week 3–4        |
+| Workflow automation                  | Abhinav     | Week 4          |
+| Documentation & metadata             | Both        | Week 4–5        |
+| Final report & GitHub release        | Both        | Week 5 (Dec 10) |
 
 ---
 
