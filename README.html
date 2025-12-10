@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>readme</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="README_files/libs/clipboard/clipboard.min.js"></script>
+<script src="README_files/libs/quarto-html/quarto.js"></script>
+<script src="README_files/libs/quarto-html/popper.min.js"></script>
+<script src="README_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="README_files/libs/quarto-html/anchor.min.js"></script>
+<link href="README_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="README_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="README_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="README_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="README_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="air-quality-and-respiratory-illness-trends-in-chicago" class="level1">
+<h1>Air Quality and Respiratory Illness Trends in Chicago</h1>
+<section id="contributors" class="level2">
+<h2 class="anchored" data-anchor-id="contributors">Contributors</h2>
+<ul>
+<li><strong>Kirtan Patel</strong></li>
+<li><strong>Abhinav Arvind</strong></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>This project investigates whether fluctuations in Chicago’s air quality—specifically levels of PM2.5 and ozone—correlate with trends in respiratory illness–related emergency department (ED) visits. Understanding this relationship is important for public health preparedness, environmental policy evaluation, and early detection of health risks tied to pollution.</p>
+<p>We collected two primary datasets covering 2015–2025:</p>
+<ol type="1">
+<li><strong>Daily air pollutant measurements</strong> from the U.S. Environmental Protection Agency’s Air Quality System (AQS) API.</li>
+<li><strong>Weekly respiratory ED visit records</strong> from the City of Chicago’s public health surveillance system.</li>
+</ol>
+<p>These datasets differ in structure, granularity, temporal frequency, and measurement units. To prepare them for integrated analysis, we performed extensive cleaning, filtering, and feature engineering. The EPA dataset contains readings from all Cook County monitors, so we filtered the raw data to include only those monitors physically located within Chicago** to avoid geographic bias. Because the AQS data are daily while hospital records are weekly, we created a new **engineered “month” feature for both datasets and aggregated measurements to monthly averages to ensure temporal consistency.</p>
+<p>The final merged dataset enabled analysis of long-term pollutant trends, disease categories (Broad Acute Respiratory, ILI, Influenza, RSV, COVID-19), and seasonal patterns. Visualizations include time-series plots, heatmaps, scatter plots with regression lines, and correlation bar charts.</p>
+<p>Across the 10-year period, PM2.5 levels show recurring seasonal patterns with winter peaks and spring lows. Respiratory illnesses also show strong seasonal cycles, especially influenza and RSV. Correlation analysis reveals weak but generally positive associations between pollution levels and visit percentages, with influenza showing the strongest correlation (~0.16). COVID-19 has a slight negative correlation, likely reflecting masking, social distancing, and other pandemic-era interventions.</p>
+<p>These findings indicate that air pollution is one of several factors influencing respiratory illness trends. While pollution alone does not drive large changes in ED visits, mild associations are detectable, especially for illnesses with strong seasonal components.</p>
+<p>This entire workflow is reproducible using the provided Snakemake pipeline, which automates data acquisition, cleaning, integration, database storage, and visualization generation.</p>
+<hr>
+</section>
+<section id="data-profile" class="level1">
+<h1>Data Profile</h1>
+<section id="epa-air-quality-system-aqs-daily-data" class="level2">
+<h2 class="anchored" data-anchor-id="epa-air-quality-system-aqs-daily-data">1. EPA Air Quality System (AQS) Daily Data</h2>
+<p><strong>Source:</strong> https://aqs.epa.gov/data/api/dailyData/byCounty<br>
+<strong>Format:</strong> JSON → CSV (<code>air_csv</code>)</p>
+<p><strong>Key variables:</strong></p>
+<ul>
+<li><code>date_local</code></li>
+<li><code>parameter_name</code> (e.g., PM2.5 – Local Conditions)</li>
+<li><code>arithmetic_mean</code></li>
+<li><code>site_number</code>, <code>county_code</code>, <code>state_code</code></li>
+<li><code>sample_duration</code></li>
+</ul>
+<p><strong>Ethical/legal constraints:</strong></p>
+<ul>
+<li>Public, unrestricted environmental dataset</li>
+<li>No personal or identifying information</li>
+<li>Requires adherence to EPA API usage guidelines</li>
+</ul>
+<p><strong>Processing steps:</strong></p>
+<ul>
+<li>Queried Cook County (state=17, county=031)</li>
+<li><strong>Filtered to include only Chicago monitor sites</strong></li>
+<li>Removed missing or incomplete rows</li>
+<li>Added engineered <code>month</code> column via <code>date_local.dt.to_period('M')</code></li>
+<li>Aggregated to monthly averages</li>
+<li>Saved as cleaned <code>air_csv</code></li>
+</ul>
+<hr>
+</section>
+<section id="city-of-chicago-respiratory-illness-surveillance-data" class="level2">
+<h2 class="anchored" data-anchor-id="city-of-chicago-respiratory-illness-surveillance-data">2. City of Chicago Respiratory Illness Surveillance Data</h2>
+<p><strong>Source:</strong> https://data.cityofchicago.org/Health-Human-Services/7ce8-bpr6/about_data<br>
+<strong>Format:</strong> JSON → CSV (<code>hosp_data.csv</code>)</p>
+<p><strong>Key variables:</strong></p>
+<ul>
+<li><code>week_start</code>, <code>week_end</code></li>
+<li><code>respiratory_category</code></li>
+<li><code>demographic_group</code></li>
+<li><code>percent</code> (percent of ED visits)</li>
+</ul>
+<p><strong>Ethical/legal constraints:</strong></p>
+<ul>
+<li>Aggregated, fully de-identified</li>
+<li>No protected health information</li>
+<li>Must follow dataset usage requirements</li>
+</ul>
+<p><strong>Processing steps:</strong></p>
+<ul>
+<li>Converted weekly timestamps to datetime</li>
+<li>Created engineered <code>month</code> feature using <code>week_start.dt.to_period('M')</code></li>
+<li>Aggregated by month and respiratory category</li>
+<li>Saved as cleaned <code>hosp_data.csv</code></li>
+</ul>
+<hr>
+</section>
+<section id="integrated-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="integrated-dataset">3. Integrated Dataset</h2>
+<p><strong>Merged:</strong> <code>air_csv</code> + <code>hosp_data.csv</code> → <code>merged.csv</code><br>
+<strong>Join key:</strong> engineered <code>month</code> field</p>
+<p><strong>Variables include:</strong></p>
+<ul>
+<li><code>month</code></li>
+<li><code>avg_pollution</code></li>
+<li><code>respiratory_category</code></li>
+<li><code>avg_visit_percent</code></li>
+</ul>
+<p>This dataset was used for correlations, scatterplots, heatmaps, and seasonal analyses.</p>
+<hr>
+</section>
+</section>
+<section id="data-quality" class="level1">
+<h1>Data Quality</h1>
+<section id="air-quality-data" class="level3">
+<h3 class="anchored" data-anchor-id="air-quality-data">Air Quality Data</h3>
+<ul>
+<li><strong>Missing values</strong> were minimal and removed.</li>
+<li><strong>Spatial filtering</strong> ensured only Chicago monitors were used.</li>
+<li><strong>Outliers</strong> (e.g., 20.7 μg/m³ PM2.5) were verified as valid due to wildfire smoke events.</li>
+<li><strong>Granularity mismatch</strong> required monthly aggregation.</li>
+<li>Data values were internally consistent and within EPA-expected ranges.</li>
+</ul>
+</section>
+<section id="hospital-data" class="level3">
+<h3 class="anchored" data-anchor-id="hospital-data">Hospital Data</h3>
+<ul>
+<li>Occasional <strong>missing weeks</strong> existed but smoothing via monthly averages reduced their impact.</li>
+<li>Some categories (e.g., RSV) have sparse earlier-year data.</li>
+<li>COVID-19 patterns display irregular spikes due to pandemic-related interventions.</li>
+</ul>
+</section>
+<section id="merged-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="merged-dataset">Merged Dataset</h3>
+<ul>
+<li>Time alignment succeeded using engineered month values.</li>
+<li>Verified no duplicate rows after merging.</li>
+<li>Final dataset includes <strong>555 monthly data points</strong>.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="findings" class="level1">
+<h1>Findings</h1>
+<section id="long-term-pollution-trends" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-pollution-trends">1. Long-Term Pollution Trends</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image.png" class="img-fluid figure-img"></p>
+<figcaption>Alt text</figcaption>
+</figure>
+</div>
+<ul>
+<li>PM2.5 fluctuates seasonally with winter highs and spring lows.</li>
+<li>A notable spike in 2023–2024 corresponds to regional smoke events.</li>
+</ul>
+</section>
+<section id="respiratory-illness-trends" class="level3">
+<h3 class="anchored" data-anchor-id="respiratory-illness-trends">2. Respiratory Illness Trends</h3>
+<ul>
+<li>Strong seasonality exists in influenza, ILI, and RSV.</li>
+<li>COVID-19 shows irregular, pandemic-specific spikes.</li>
+</ul>
+</section>
+<section id="seasonal-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="seasonal-patterns">3. Seasonal Patterns</h3>
+<p>Heatmaps show that both pollution levels and respiratory visit percentages peak in colder months.</p>
+</section>
+<section id="correlation-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-analysis">4. Correlation Analysis</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image-4.png" class="img-fluid figure-img"></p>
+<figcaption>Alt text</figcaption>
+</figure>
+</div>
+<p>Correlation coefficients between pollution and ED visit percentages:</p>
+<ul>
+<li><strong>Influenza:</strong> ~0.164</li>
+<li><strong>RSV:</strong> ~0.110</li>
+<li><strong>ILI:</strong> ~0.061</li>
+<li><strong>Broad Acute Respiratory:</strong> ~0.026</li>
+<li><strong>COVID-19:</strong> ~–0.024</li>
+</ul>
+<p>These are <strong>weak correlations</strong>, but consistently positive for most categories. Influenza shows the strongest association.</p>
+</section>
+<section id="scatter-plot-observations" class="level3">
+<h3 class="anchored" data-anchor-id="scatter-plot-observations">5. Scatter Plot Observations</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image-3.png" class="img-fluid figure-img"></p>
+<figcaption>Alt text</figcaption>
+</figure>
+</div>
+<ul>
+<li>Most categories show mild upward regression slopes.</li>
+<li>COVID-19’s slope is slightly negative, likely due to pandemic behavior changes.</li>
+</ul>
+<p>Overall, pollution moderately—but not strongly—aligns with respiratory illness rates.</p>
+</section>
+<section id="answers-to-research-questions" class="level2">
+<h2 class="anchored" data-anchor-id="answers-to-research-questions">Answers to Research Questions</h2>
+<section id="how-do-weekly-or-annual-air-quality-levels-pm2.5-ozone-correlate-with-respiratory-illness-rates-in-chicago" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-weekly-or-annual-air-quality-levels-pm2.5-ozone-correlate-with-respiratory-illness-rates-in-chicago">1. How do weekly or annual air quality levels (PM2.5, ozone) correlate with respiratory illness rates in Chicago?</h3>
+<p>Our analysis evaluated PM2.5 because ozone data was not included in the merged dataset.</p>
+<p>Correlation results (monthly):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 23%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Respiratory Category</th>
+<th>Correlation (r)</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Influenza</td>
+<td>0.164</td>
+<td>Weak positive correlation</td>
+</tr>
+<tr class="even">
+<td>RSV</td>
+<td>0.110</td>
+<td>Weak positive correlation</td>
+</tr>
+<tr class="odd">
+<td>ILI</td>
+<td>0.061</td>
+<td>Very weak positive correlation</td>
+</tr>
+<tr class="even">
+<td>Broad Acute Resp.</td>
+<td>0.026</td>
+<td>No meaningful relationship</td>
+</tr>
+<tr class="odd">
+<td>COVID-19</td>
+<td>-0.024</td>
+<td>Slight negative correlation</td>
+</tr>
+</tbody>
+</table>
+<p>Conclusion:<br>
+PM2.5 shows only weak associations with most respiratory illnesses. COVID-19 shows no correlation.<br>
+Ozone was not included and cannot be evaluated (should be added in future work).</p>
+<hr>
+</section>
+<section id="are-there-observable-temporal-trends-or-lag-effects-between-air-pollution-exposure-and-hospital-visits" class="level3">
+<h3 class="anchored" data-anchor-id="are-there-observable-temporal-trends-or-lag-effects-between-air-pollution-exposure-and-hospital-visits">2. Are there observable temporal trends or lag effects between air pollution exposure and hospital visits?</h3>
+<p>Temporal trends:</p>
+<ul>
+<li>PM2.5 peaks in winter and decreases in summer.</li>
+<li>Influenza, RSV, and ILI also peak in winter.</li>
+<li>COVID-19 does not follow seasonal patterns and is driven by pandemic waves.</li>
+</ul>
+<p>Lag effects:<br>
+We tested 1-, 2-, and 3-month lag features.<br>
+Correlations did not improve and remained weak.</p>
+<p>Conclusion:<br>
+There is no evidence of meaningful lag effects. Shared winter seasonality explains most of the alignment between pollution and illness trends.</p>
+<hr>
+</section>
+<section id="how-does-this-relationship-vary-across-different-seasons-or-age-groups" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-this-relationship-vary-across-different-seasons-or-age-groups">3. How does this relationship vary across different seasons or age groups?</h3>
+<p>Seasonal variation:<br>
+Both PM2.5 and respiratory illnesses peak during winter months (December–February).<br>
+This suggests seasonal confounding rather than pollution-driven effects.</p>
+<p>Age groups:<br>
+The dataset includes demographic categories, but age-group analysis was not performed.<br>
+This remains unanswered and should be addressed in future work.</p>
+<p>Overall conclusion:<br>
+Air pollution (PM2.5) has limited direct influence on respiratory emergency department visits in Chicago. Seasonal factors are the dominant drivers of both pollution fluctuations and respiratory illness trends.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="future-work" class="level1">
+<h1>Future Work</h1>
+<p>Potential extensions include:</p>
+<ul>
+<li><strong>Lag analysis</strong> to examine delayed effects of pollution exposure (1–4 weeks).</li>
+<li>Integration of <strong>weather variables</strong> (humidity, temperature).</li>
+<li>Neighborhood-level spatial analysis within Chicago.</li>
+<li>Predictive modeling via <strong>time-series methods</strong> (Prophet, ARIMA).</li>
+<li>Nonlinear modeling using <strong>machine learning</strong>.</li>
+<li>Policy impact evaluation (e.g., air quality alerts, COVID-era restrictions).</li>
+<li>Age-group effects and ozone effects were not analyzed and represent future work.</li>
+</ul>
+<hr>
+</section>
+<section id="reproducing-this-project" class="level1">
+<h1>Reproducing This Project</h1>
+<p>This project includes several components to ensure full transparency and reproducibility of the data collection, cleaning, integration, and analysis process.</p>
+<section id="data-integrity-and-metadata" class="level3">
+<h3 class="anchored" data-anchor-id="data-integrity-and-metadata">Data Integrity and Metadata</h3>
+<ul>
+<li>A complete <strong>data dictionary</strong> (<code>DataDictionary.md</code>) documents all fields in the EPA and Chicago hospital datasets, including data types, definitions, and units.</li>
+<li>A <strong>descriptive metadata record</strong> (<code>MetaData.json</code>) follows DCAT/DataCite conventions and describes the provenance, licenses, sources, collection dates, and workflow context of the datasets.</li>
+<li><strong>SHA-256 checksums</strong> are computed for all raw and cleaned data files to verify file integrity.<br>
+These appear in the <code>sha256/</code> directory and allow anyone to confirm that no data has been modified or corrupted. This folder contains the hashcodes for the raw data collected for the air pollution data and hospital data. It also contains the hashcode for the merged data after merging.</li>
+</ul>
+</section>
+<section id="data-cleaning-provenance-openrefine" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning-provenance-openrefine">Data Cleaning Provenance (OpenRefine)</h3>
+<ul>
+<li>All data cleaning operations performed on the EPA and hospital datasets are fully recorded in an <strong>OpenRefine JSON history file</strong>, stored in the <code>json_recipe/</code> folder.</li>
+<li>This file contains every transformation applied (parsing dates, feature engineering, filtering Chicago data, renaming fields, generating month columns), enabling anyone to replay the cleaning process exactly as executed. Keep in mind the Json recipe was made with both air data and hospital data in one project on OpenRefine.</li>
+</ul>
+</section>
+<section id="workflow-automation" class="level3">
+<h3 class="anchored" data-anchor-id="workflow-automation">Workflow Automation</h3>
+<p>The entire pipeline is automated using <strong>Snakemake</strong>, ensuring that each stage can be reproduced in the correct order.</p>
+<p>To reproduce the workflow:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--cores</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="this-snakemake-workflow-will" class="level2">
+<h2 class="anchored" data-anchor-id="this-snakemake-workflow-will">This Snakemake Workflow will:</h2>
+<ul>
+<li>Collect data from the EPA and Chicago APIs</li>
+<li>Clean datasets and perform feature engineering (e.g., filtering Chicago-only air data, creating month column)</li>
+<li>Create and populate a SQLite database</li>
+<li>Merge the monthly air quality and hospital datasets</li>
+<li>Generate all visualizations using Papermill</li>
+<li>Save outputs to the data/ and executed_notebooks/ directories</li>
+<li>Output files will show up in: data/executed_notebooks/</li>
+</ul>
+</section>
+<section id="box-link" class="level2">
+<h2 class="anchored" data-anchor-id="box-link">Box Link</h2>
+<ul>
+<li>Here is the Box link to the output data: https://uofi.box.com/s/sqoexrdcvyzd5n1f0z0b8hi30kakh5f3</li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

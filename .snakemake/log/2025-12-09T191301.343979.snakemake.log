@@ -1,0 +1,83 @@
+Assuming unrestricted shared filesystem usage.
+host: Kirtans-MacBook-Pro-3.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                   count
+------------------  -------
+all                       1
+get_data                  1
+integrate_data            1
+run_visualizations        1
+setup_database            1
+total                     5
+
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Dec  9 19:13:01 2025]
+localrule run_visualizations:
+    input: analysis/visualizations.ipynb
+    output: executed_notebooks/visualizations.ipynb
+    jobid: 4
+    reason: Missing output files: executed_notebooks/visualizations.ipynb
+    resources: tmpdir=/var/folders/7q/w_k7x3ss7fsgflp_442s596r0000gn/T
+Select jobs to execute...
+[Tue Dec  9 19:13:06 2025]
+Finished jobid: 4 (Rule: run_visualizations)
+1 of 5 steps (20%) done
+Execute 1 jobs...
+[Tue Dec  9 19:13:06 2025]
+localrule setup_database:
+    input: databaseSetup.ipynb
+    output: executed_notebooks/databaseSetup.ipynb
+    jobid: 3
+    reason: Missing output files: executed_notebooks/databaseSetup.ipynb
+    resources: tmpdir=/var/folders/7q/w_k7x3ss7fsgflp_442s596r0000gn/T
+Select jobs to execute...
+[Tue Dec  9 19:13:08 2025]
+Finished jobid: 3 (Rule: setup_database)
+2 of 5 steps (40%) done
+Execute 1 jobs...
+[Tue Dec  9 19:13:08 2025]
+localrule get_data:
+    input: data_collection/getData.ipynb
+    output: executed_notebooks/getData.ipynb
+    jobid: 1
+    reason: Missing output files: executed_notebooks/getData.ipynb
+    resources: tmpdir=/var/folders/7q/w_k7x3ss7fsgflp_442s596r0000gn/T
+Select jobs to execute...
+RuleException:
+CalledProcessError in file "/Users/kirtan_patel/Documents/477/477project/Snakefile", line 20:
+Command 'set -euo pipefail;  
+        papermill data_collection/getData.ipynb executed_notebooks/getData.ipynb' returned non-zero exit status 1.
+[Tue Dec  9 19:13:20 2025]
+Error in rule get_data:
+    message: None
+    jobid: 1
+    input: data_collection/getData.ipynb
+    output: executed_notebooks/getData.ipynb
+    shell:
+        
+        papermill data_collection/getData.ipynb executed_notebooks/getData.ipynb
+        
+        (command exited with non-zero exit code)
+Removing output files of failed job get_data since they might be corrupted:
+executed_notebooks/getData.ipynb
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Tue Dec  9 19:13:20 2025]
+Error in rule get_data:
+    message: None
+    jobid: 1
+    input: data_collection/getData.ipynb
+    output: executed_notebooks/getData.ipynb
+    shell:
+        
+        papermill data_collection/getData.ipynb executed_notebooks/getData.ipynb
+        
+        (command exited with non-zero exit code)
+Complete log(s): /Users/kirtan_patel/Documents/477/477project/.snakemake/log/2025-12-09T191301.343979.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

@@ -1,0 +1,57 @@
+{
+    "@context": "https://schema.org/",
+    "@type": "Dataset",
+    "name": "Chicago Air Quality and Respiratory Illness Analysis Dataset",
+    "description": "Cleaned dataset used to explore relationships between EPA air pollutant levels (PM2.5, Ozone) and Chicago emergency department respiratory illness trends. Includes harmonized monthly observations derived from EPA AQS and CDPH ESSENCE systems.",
+    "creator": [
+      {
+        "@type": "Person",
+        "name": "Kirtan Patel",
+        "affiliation": "University of Illinois Urbana-Champaign"
+      },
+      {
+        "@type": "Person",
+        "name": "Abhinav Arvind",
+        "affiliation": "University of Illinois Urbana-Champaign"
+      }
+    ],
+    "keywords": [
+      "air quality",
+      "respiratory illness",
+      "public health",
+      "EPA AQS",
+      "Chicago",
+      "PM2.5",
+      "emergency department visits"
+    ],
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "dateCreated": "2025-12-01",
+    "temporalCoverage": "2015-01/2020-12",
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "Chicago, Illinois"
+    },
+    "distribution": [
+      {
+        "@type": "DataDownload",
+        "name": "Clean EPA Data (air_clean.csv)",
+        "encodingFormat": "text/csv"
+      },
+      {
+        "@type": "DataDownload",
+        "name": "Clean Hospital Data (hosp_clean.csv)",
+        "encodingFormat": "text/csv"
+      }
+    ],
+    "sourceOrganization": [
+      {
+        "@type": "Organization",
+        "name": "Environmental Protection Agency (EPA)"
+      },
+      {
+        "@type": "Organization",
+        "name": "Chicago Department of Public Health (CDPH)"
+      }
+    ]
+  }
+  

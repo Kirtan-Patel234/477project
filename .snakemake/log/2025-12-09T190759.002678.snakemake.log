@@ -1,0 +1,59 @@
+Assuming unrestricted shared filesystem usage.
+host: Kirtans-MacBook-Pro-3.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                   count
+------------------  -------
+all                       1
+get_data                  1
+integrate_data            1
+run_visualizations        1
+setup_database            1
+total                     5
+
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Dec  9 19:08:00 2025]
+localrule run_visualizations:
+    input: analysis/visualizations.ipynb
+    output: executed_notebooks/visualizations.ipynb
+    jobid: 4
+    reason: Missing output files: executed_notebooks/visualizations.ipynb
+    resources: tmpdir=/var/folders/7q/w_k7x3ss7fsgflp_442s596r0000gn/T
+Select jobs to execute...
+RuleException:
+CalledProcessError in file "/Users/kirtan_patel/Documents/477/477project/Snakefile", line 53:
+Command 'set -euo pipefail;  
+        papermill analysis/visualizations.ipynb executed_notebooks/visualizations.ipynb' returned non-zero exit status 1.
+[Tue Dec  9 19:08:03 2025]
+Error in rule run_visualizations:
+    message: None
+    jobid: 4
+    input: analysis/visualizations.ipynb
+    output: executed_notebooks/visualizations.ipynb
+    shell:
+        
+        papermill analysis/visualizations.ipynb executed_notebooks/visualizations.ipynb
+        
+        (command exited with non-zero exit code)
+Removing output files of failed job run_visualizations since they might be corrupted:
+executed_notebooks/visualizations.ipynb
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Tue Dec  9 19:08:03 2025]
+Error in rule run_visualizations:
+    message: None
+    jobid: 4
+    input: analysis/visualizations.ipynb
+    output: executed_notebooks/visualizations.ipynb
+    shell:
+        
+        papermill analysis/visualizations.ipynb executed_notebooks/visualizations.ipynb
+        
+        (command exited with non-zero exit code)
+Complete log(s): /Users/kirtan_patel/Documents/477/477project/.snakemake/log/2025-12-09T190759.002678.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

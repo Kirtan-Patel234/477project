@@ -1,0 +1,50 @@
+Assuming unrestricted shared filesystem usage.
+host: Kirtans-MacBook-Pro-3.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+all                   1
+get_data              1
+integrate_data        1
+total                 3
+
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Dec  9 19:15:04 2025]
+localrule get_data:
+    input: data_collection/getData.ipynb
+    output: executed_notebooks/getData.ipynb
+    jobid: 1
+    reason: Missing output files: executed_notebooks/getData.ipynb
+    resources: tmpdir=/var/folders/7q/w_k7x3ss7fsgflp_442s596r0000gn/T
+Select jobs to execute...
+[Tue Dec  9 19:21:04 2025]
+Finished jobid: 1 (Rule: get_data)
+1 of 3 steps (33%) done
+Execute 1 jobs...
+[Tue Dec  9 19:21:04 2025]
+localrule integrate_data:
+    input: data_cleaning/dataIntegration.ipynb
+    output: executed_notebooks/dataIntegration.ipynb
+    jobid: 2
+    reason: Missing output files: executed_notebooks/dataIntegration.ipynb
+    resources: tmpdir=/var/folders/7q/w_k7x3ss7fsgflp_442s596r0000gn/T
+[Tue Dec  9 19:21:06 2025]
+Finished jobid: 2 (Rule: integrate_data)
+2 of 3 steps (67%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Dec  9 19:21:06 2025]
+localrule all:
+    input: executed_notebooks/getData.ipynb, executed_notebooks/dataIntegration.ipynb, executed_notebooks/databaseSetup.ipynb, executed_notebooks/visualizations.ipynb
+    jobid: 0
+    reason: Input files updated by another job: executed_notebooks/getData.ipynb, executed_notebooks/dataIntegration.ipynb
+    resources: tmpdir=/var/folders/7q/w_k7x3ss7fsgflp_442s596r0000gn/T
+[Tue Dec  9 19:21:06 2025]
+Finished jobid: 0 (Rule: all)
+3 of 3 steps (100%) done
+Complete log(s): /Users/kirtan_patel/Documents/477/477project/.snakemake/log/2025-12-09T191504.362168.snakemake.log
